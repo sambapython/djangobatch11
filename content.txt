@@ -1,0 +1,38 @@
+    1. django architecture
+    2. django installation
+    3. git(how to setup, clone, add, commit, push, pull)
+    4. sample project(content:)
+    5. design database(excel, what is the need of relations)
+    6. basic flow(request and response process with django dev server)
+    7. how to create project, app, database structure creation(makemigrations, migrate), runserver
+    8. django admin
+    9. models(abstract models, proxy models, models, inherited models)
+    10. CRUD operations of model
+    11. image, doc file upload.
+    12. relations in models(primarykey, foreignkey, manytomany, and how to achieve one2many.)
+    13. views(function based views)
+    14. static, html, css, bootstrap, django template language, media files
+    15. forms(forms, modelsforms). form validations
+    16. Basic project completed.
+    17. problems in the project
+    18. views(class based views and generic views.)
+    19. authentication(login, session, logout)
+    20. django rest framework:
+need of APIS
+API view
+serializers(validate request, convert request data)
+authentication: Basic and token based
+    21. unit test cases
+    22. pagination
+    23. middleware( error handling, request tracking)
+    24. signaling concept
+    25. cache management
+    26. maintain multiple databases for your application
+    27. formset
+    28. deploying application using gunicorn as webserver, nginx as proxy server
+    29. working with some other apps which has API support
+    30. email templating
+    31. SSO(with google)
+    32. write own management commands
+    33. containerizing the services in project using docker and docker-compose
+    34. provide highavailability and resiliency for your project using docker-swarm
