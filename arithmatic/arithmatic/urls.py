@@ -1,4 +1,4 @@
-"""crickinfo URL Configuration
+"""arithmatic URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -15,14 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.http import HttpResponse
-from cricket.views import fun, matches_view, add_view
-from cricket1.views import fun1
+from operations.views import home_view, add_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('players/', fun),
-    path('players1/', fun1),
-    path('matches/', matches_view),
-    path("add/",add_view),
+    path('', home_view),
+    path("add/",add_view)
 ]
+
