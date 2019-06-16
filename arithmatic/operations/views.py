@@ -9,6 +9,7 @@ def add_view(request):
 		a=float(data["a"])
 		b=float(data["b"])
 		c=a+b
+	
 	else:
 		a=0
 		b=0
