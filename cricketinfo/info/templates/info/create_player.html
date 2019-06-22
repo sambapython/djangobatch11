@@ -1,0 +1,10 @@
+{% extends 'info/home.html'%}
+{% block container%}
+	<h1>PLAYER CREATION FORM</h1>
+	<h4>{{ message }}</h4>
+	<form method="post"> 
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" name="" value="create player">
+	</form>
+{% endblock %}

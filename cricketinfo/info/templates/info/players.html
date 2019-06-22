@@ -1,4 +1,32 @@
 {% extends 'info/home.html'%}
 {% block container%}
-	<a href="/create_player">create player</a>
+	<h2><a href="/create_player">create player</a></h2>
+	<h3>PLAYERS</h3>
+	<table border="2">
+		<thead>
+			<tr>
+				<th>name</th>
+				<th>dob</th>
+				<th>specialist</th>
+				<th>country</th>
+				<th>active</th>
+				<th>operations</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for plr in players %}
+			<tr>
+				<td>{{ plr.name }}</td>
+				<td>{{ plr.dob }}</td>
+				<td>{{ plr.special }}</td>
+				<td>{{ plr.country }}</td>
+				<td>{{ plr.active}}</td>
+				<td>
+					<a href="/update_player/{{plr.id}}">UPDATE</a>||
+					<a href="/delete_player/{{plr.id}}">DELETE</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'info/home.html'%}
+{% block container%}
+	<h1>COUNTRY DELETION FORM</h1>
+	<h4>{{ message }}</h4>
+	<form method="post"> 
+		{% csrf_token %}
+		Name: <input type="text" name="name" value="{{data.name}}"><br>
+		Flag:<input type="file" name="flag"><br>
+		shortname:<input type="text" name="shortname" value="{{data.shortname}}"><br>
+		description:<input type="textarea" name="description" value="{{data.description}}"><br>
+		<input type="submit" name="" value="delete country">
+	</form>
+{% endblock %}
