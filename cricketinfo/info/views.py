@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from info.models import Country, Player
-from info.forms import PlayerForm
+from info.forms import PlayerForm, RegistrationForm, LoginForm
 def players_view(request):
 	players = Player.objects.all()
 	return render(request,"info/players.html",
@@ -97,4 +97,7 @@ def create_country_view(request):
 
 
 def home_view(request):
-	return render(request,"info/home.html")
+	reg_form = RegistrationForm()
+	login_form = LoginForm()
+	return render(request,"info/home.html",{"reg_form":reg_form,
+		"login_form":login_form})

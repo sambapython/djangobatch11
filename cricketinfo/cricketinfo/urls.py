@@ -18,6 +18,9 @@ from django.urls import path, re_path
 from info.views import home_view, players_view, countries_view,\
 create_country_view, update_country_view,delete_country_view,\
 create_player_view, update_player_view,delete_player_view
+from django.views.generic import ListView, CreateView, DeleteView,\
+UpdateView
+from info.models import Match,PlayerGroup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +33,33 @@ urlpatterns = [
     path("create_player/",create_player_view),
     re_path("update_player/(?P<pk>[0-9]+)",update_player_view),# update_country_view(reobj,pk=23)
     re_path("delete_player/(?P<pk>[0-9]+)",delete_player_view), 
+    path("matches/",ListView.as_view(
+        model=Match,
+        #fields="__all__",
+        #template_name= "info/match_list.html"
+        )),
+    path("create_match", CreateView.as_view(
+            model=Match,
+            fields = "__all__",
+            #template_name="info/match_form.html"
+            success_url="/matches"
+        )),
+    path("create_group/",CreateView.as_view(
+        model = PlayerGroup,
+        fields="__all__",
+        success_url="/matches"
+        #template_name="info/playergroup_form.html"
+        )),
+    re_path("delete_match/(?P<pk>[0-9]+)",DeleteView.as_view(
+        model=Match,
+        success_url="/matches",
+        template_name="info/match_delete.html"
+        )),
+    re_path("update_match/(?P<pk>[0-9]+)",UpdateView.as_view(
+        model=Match,
+        success_url="/matches",
+        fields="__all__",
+        #template_name="info/match_form.html"
+        )),
+
 ]

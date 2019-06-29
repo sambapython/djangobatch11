@@ -1,0 +1,30 @@
+{% extends 'info/home.html' %}
+{% block container %}
+	<h2><a href="/create_match">CREATE MATCH</a> &nbsp &nbsp
+	<a href="/create_group">CREATE GROUP</a></h2>
+	<table border=2>
+		<tr>
+			<th>Name</th>
+			<th>Country</th>
+			<th>Stradium</th>
+			<th>group1</th>
+			<th>group2</th>
+			<th>operations</th>
+
+		</tr>
+		{% for row in object_list%}
+			<tr>
+				<td>{{ row.name }}</td>
+				<td>{{ row.country }}</td>
+				<td>{{ row.stadium }}</td>
+				<td>{{ row.group1 }}</td>
+				<td>{{ row.group2 }}</td>
+				<td><a href="/update_match/{{row.id}}">UPDATE</a>
+					&nbsp
+					<a href="/delete_match/{{row.id}}">DELETE</a></td>
+			</tr>
+
+		{% endfor %}
+	</table>
+	
+{% endblock %}

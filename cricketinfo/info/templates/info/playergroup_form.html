@@ -1,0 +1,11 @@
+{% extends "info/home.html" %}
+
+{% block container %}
+<h2>creating player group</h2>
+	<form method="post">
+		{% csrf_token%}
+		{{ form.as_p}}
+		<input type="submit" name="" value="SAVE">
+	</form>
+		
+{% endblock %}

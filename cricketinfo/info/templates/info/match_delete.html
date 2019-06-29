@@ -1,0 +1,8 @@
+{% extends "info/home.html" %}
+{% block container %}
+<h2>Match delete</h2>
+	<form method="post">
+		{% csrf_token%}
+		Do you want to delete?:<input type="submit" name="" value="yes">
+	</form>
+{% endblock %}
