@@ -15,7 +15,8 @@ class Country(abst):
 		return self.name
 
 class UserProfile(AbstractUser):
-	country = models.ForeignKey(Country,on_delete=models.PROTECT)
+	country = models.ForeignKey(Country,on_delete=models.PROTECT,
+		related_name="userprofile")
 
 # Create your models here.
 
@@ -29,6 +30,7 @@ class Player(abst):
 	special = models.CharField(choices=specials, max_length=3,)
 	country = models.ForeignKey(Country,on_delete=models.PROTECT)
 	active = models.BooleanField(default=True)
+	pic = models.ImageField(blank=True, null=True)
 
 	def __str__(self):
 		return self.name

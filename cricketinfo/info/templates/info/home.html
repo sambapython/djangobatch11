@@ -18,15 +18,21 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a href="/">Home</a></li>
+      {% if request.user.is_authenticated %}
       <li><a href="/players">players</a></li>
       <li><a href="/countries">COUNTRIES</a></li>
       <li><a href="/matches">MATCHES</a></li>
+      <li><a href="#">WELCOME <b>{{ request.user.username}}</b></a></li>
+      <li><a href="/logout">LOGOUT</a></li>
+
+      {% endif %}
       
     </ul>
   </div>
 </nav>
   
 <div class="container" style="margin-top:50px">
+  <p>{{message}}</p>
   {% block container%}
   <div class="row">
     <div class="col-md-6">

@@ -6,16 +6,23 @@ class RegistrationForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ["username","password","country"]
-class LoginForm(forms.ModelForm):
-	class Meta:
-		model = UserProfile
-		fields=["username","password"]
+	def clean_password(self):
+		password = self.data.get("password")
+		c_password=self.data.get("confirm_password")
+		if password!=c_password:
+			err = "passwords not matched"
+			raise forms.ValidationError(err)
+		return password
+class LoginForm(forms.Form):
+	username = forms.CharField(max_length=250)
+	password = forms.CharField(widget=forms.PasswordInput)
 	
 class PlayerForm(forms.ModelForm):
 	#name=forms.CharField(source="name", validators)
 	class Meta:
 		model = Player
 		fields = "__all__" #["name","dob"]
+		
 
 	def clean_name(self,value=None):
 		name=self.data.get("name")

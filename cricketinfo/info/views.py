@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from info.models import Country, Player
 from info.forms import PlayerForm, RegistrationForm, LoginForm
+from django.contrib.auth import authenticate,login, logout
+def logout_view(request):
+	logout(request)
+	return redirect("/")
 def players_view(request):
 	players = Player.objects.all()
 	return render(request,"info/players.html",
@@ -15,7 +19,8 @@ def update_player_view(request,pk):
 		form = PlayerForm(instance=player)
 		if request.method=="POST":
 			new_data = request.POST
-			form = PlayerForm(instance=player,data=new_data)
+			form = PlayerForm(instance=player,data=new_data, 
+				files=request.FILES)
 			if form.is_valid():
 				form.save()
 				return redirect("/players")
@@ -29,7 +34,8 @@ def create_player_view(request):
 	msg=""
 	if request.method=="POST":
 		data = request.POST
-		form = PlayerForm(data=data)
+		files = request.FILES
+		form = PlayerForm(data=data,files=files)
 		if form.is_valid():
 			form.save()
 			return redirect("/players")
@@ -99,5 +105,29 @@ def create_country_view(request):
 def home_view(request):
 	reg_form = RegistrationForm()
 	login_form = LoginForm()
+	msg=""
+	if request.method=="POST":
+		data = request.POST
+		if "log" in data:
+			login_form = LoginForm(data=data)
+			user = authenticate(username=data["username"],
+				password=data["password"])
+			if user:
+				msg="Login successfully"
+				login(request,user)
+				# it will add the user details to request.session dictionary
+			else:
+				msg="Login failed.."
+		else:
+			reg_form = RegistrationForm(data=data)
+			if reg_form.is_valid():
+				reg_form.save() # user created without password encryption
+				user = reg_form.instance
+				user.set_password(data["password"]) # encrypt the password
+				user.save()
+				msg="Registration successfully done!!"
+				reg_form = RegistrationForm()
+			else:
+				msg=reg_form._errors
 	return render(request,"info/home.html",{"reg_form":reg_form,
-		"login_form":login_form})
+		"login_form":login_form,"message":msg})

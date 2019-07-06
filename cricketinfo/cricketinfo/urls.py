@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, re_path
 from info.views import home_view, players_view, countries_view,\
 create_country_view, update_country_view,delete_country_view,\
-create_player_view, update_player_view,delete_player_view
+create_player_view, update_player_view,delete_player_view, logout_view
 from django.views.generic import ListView, CreateView, DeleteView,\
 UpdateView
 from info.models import Match,PlayerGroup
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -61,5 +63,6 @@ urlpatterns = [
         fields="__all__",
         #template_name="info/match_form.html"
         )),
-
+    path("logout/",logout_view),
 ]
+urlpatterns = urlpatterns+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

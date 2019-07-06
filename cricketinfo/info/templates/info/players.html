@@ -10,6 +10,7 @@
 				<th>specialist</th>
 				<th>country</th>
 				<th>active</th>
+				<th>Profile PIC</th>
 				<th>operations</th>
 			</tr>
 		</thead>
@@ -21,6 +22,7 @@
 				<td>{{ plr.special }}</td>
 				<td>{{ plr.country }}</td>
 				<td>{{ plr.active}}</td>
+				<td><img width="50" height="50" src="/media/{{plr.pic}}"></td>
 				<td>
 					<a href="/update_player/{{plr.id}}">UPDATE</a>||
 					<a href="/delete_player/{{plr.id}}">DELETE</a>
