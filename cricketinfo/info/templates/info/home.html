@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 </head>
 <body style="height:1500px">
 
@@ -54,7 +56,11 @@
     </div>
   </div>
   {% endblock %}
-
+  <script type="text/javascript">
+    $(document).ready( function () {
+        $('#datatable').DataTable();
+      } );
+  </script>
 </div>
 </body>
 </html>

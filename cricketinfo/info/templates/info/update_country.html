@@ -2,7 +2,7 @@
 {% block container%}
 	<h1>COUNTRY CREATION FORM</h1>
 	<h4>{{ message }}</h4>
-	<form method="post"> 
+	<form method="post" enctype="multipart/form-data"> 
 		{% csrf_token %}
 		Name: <input type="text" name="name" value="{{data.name}}"><br>
 		Flag:<input type="file" name="flag"><br>

@@ -1,7 +1,50 @@
 from django.shortcuts import render, redirect
-from info.models import Country, Player
+from info.models import Country, Player, Match
 from info.forms import PlayerForm, RegistrationForm, LoginForm
 from django.contrib.auth import authenticate,login, logout
+from time import time
+import os
+from django.conf import settings
+from django.views.generic import CreateView, ListView
+from info.forms import MatchSearchForm
+
+class MatchListView(ListView):
+	paginate_by=20
+	def get_queryset(self):
+		params = self.request.GET
+		name = params.get("name")
+		group1 = params.get("group1")
+		group2= params.get("group2")
+		country = params.get("country")
+		stadium = params.get("stadium")
+		q=Match.objects.all()
+		if name:
+			q=q.filter(name=name)
+		if group1:
+			q=q.filter(group1=group1)
+		if group2:
+			q=q.filter(group1=group2)
+		if country:
+			q=q.filter(country=country)
+		if stadium:
+			q=q.filter(stadium=stadium)
+		return q
+	def get_context_data(self, *args, **kwargs):
+		data = ListView.get_context_data(self, *args, **kwargs)
+		form = MatchSearchForm()
+		if self.request.GET:
+			form = MatchSearchForm(data=self.request.GET)
+		data.update({"search_form":form})
+		return data
+
+'''
+def matchlistview(request):
+	object_list = Match.objects.all()
+	search_form =  MatchSearchForm()
+	return render(request,"info/match_list.html",
+		{"object_list":object_list,"search_form":search_form})
+'''
+
 def logout_view(request):
 	logout(request)
 	return redirect("/")
@@ -88,9 +131,18 @@ def create_country_view(request):
 	msg=""
 	if request.method=="POST":
 		data=request.POST
+		files = request.FILES
+		flag_file = files["flag"]
+		name=f"{flag_file.name}{int(time())}"
+		pic_data = flag_file.read()
+		path=os.path.join(settings.MEDIA_ROOT,name)
+		f=open(path,"wb")
+		f.write(pic_data)
+		f.close()
 		cnt = Country(name=data["name"],
 			shortname=data["shortname"],
-			description=data["description"]
+			description=data["description"],
+			flag=name
 			)
 		try:
 			cnt.save()

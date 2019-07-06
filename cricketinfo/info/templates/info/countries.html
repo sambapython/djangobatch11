@@ -13,7 +13,7 @@
 		{% for cnt in countries%}
 		<tr>
 			<td>{{ cnt.name }}</td>
-			<td>{{ cnt.flag }}</td>
+			<td><img src="/media/{{ cnt.flag }}" width="50" height="50"></td>
 			<td>{{ cnt.shortname }}</td>
 			<td>{{ cnt.description }}</td>
 			<td>

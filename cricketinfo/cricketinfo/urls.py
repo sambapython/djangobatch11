@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, re_path
 from info.views import home_view, players_view, countries_view,\
 create_country_view, update_country_view,delete_country_view,\
-create_player_view, update_player_view,delete_player_view, logout_view
+create_player_view, update_player_view,delete_player_view, logout_view,\
+MatchListView
 from django.views.generic import ListView, CreateView, DeleteView,\
 UpdateView
 from info.models import Match,PlayerGroup
@@ -35,8 +36,10 @@ urlpatterns = [
     path("create_player/",create_player_view),
     re_path("update_player/(?P<pk>[0-9]+)",update_player_view),# update_country_view(reobj,pk=23)
     re_path("delete_player/(?P<pk>[0-9]+)",delete_player_view), 
-    path("matches/",ListView.as_view(
+    path("matches/",MatchListView.as_view(
         model=Match,
+        queryset = Match.objects.all(),
+        
         #fields="__all__",
         #template_name= "info/match_list.html"
         )),
