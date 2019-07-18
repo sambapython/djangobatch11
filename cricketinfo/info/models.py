@@ -34,6 +34,9 @@ class Player(abst):
 
 	def __str__(self):
 		return self.name
+	def get_id(self):
+		
+		return self.id
 
 class Country1(abst):
 	name=models.CharField(max_length=250, unique=True, primary_key=True)

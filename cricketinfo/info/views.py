@@ -7,6 +7,7 @@ import os
 from django.conf import settings
 from django.views.generic import CreateView, ListView
 from info.forms import MatchSearchForm
+from django.contrib.auth.decorators import login_required
 
 class MatchListView(ListView):
 	paginate_by=20
@@ -44,16 +45,19 @@ def matchlistview(request):
 	return render(request,"info/match_list.html",
 		{"object_list":object_list,"search_form":search_form})
 '''
-
+@login_required
 def logout_view(request):
 	logout(request)
 	return redirect("/")
+@login_required
 def players_view(request):
 	players = Player.objects.all()
 	return render(request,"info/players.html",
 		{"players":players})
+@login_required
 def delete_player_view(request, pk):
 	pass
+@login_required
 def update_player_view(request,pk):
 	player = Player.objects.filter(id=pk)
 	msg=""
@@ -72,7 +76,7 @@ def update_player_view(request,pk):
 	else:
 		msg="player not found"
 	return render(request,"info/update_player.html",{"form":form,"message":msg})
-	
+@login_required
 def create_player_view(request):
 	msg=""
 	if request.method=="POST":
@@ -90,12 +94,12 @@ def create_player_view(request):
 		
 	return render(request,"info/create_player.html",{"form":form,"message":msg})
 
-
+@login_required
 def countries_view(request):
 	countries = Country.objects.all()
 	return render(request,"info/countries.html",
 		{"countries":countries})
-
+@login_required
 def delete_country_view(request, pk):
 	country = Country.objects.filter(id=pk)
 	if country:
@@ -110,6 +114,7 @@ def delete_country_view(request, pk):
 		
 	return render(request, "info/delete_country.html",
 		{"data": country,"message":msg})
+@login_required
 def update_country_view(request,pk):
 	country = Country.objects.filter(id=pk)
 	if country:
@@ -127,6 +132,7 @@ def update_country_view(request,pk):
 		msg="country not found"
 	return render(request, "info/update_country.html",
 		{"data": country,"message":msg})
+@login_required
 def create_country_view(request):
 	msg=""
 	if request.method=="POST":
@@ -160,6 +166,7 @@ def home_view(request):
 	msg=""
 	if request.method=="POST":
 		data = request.POST
+
 		if "log" in data:
 			login_form = LoginForm(data=data)
 			user = authenticate(username=data["username"],
@@ -167,6 +174,9 @@ def home_view(request):
 			if user:
 				msg="Login successfully"
 				login(request,user)
+				next_url = request.GET.get("next")
+				if next_url:
+					return redirect(next_url)
 				# it will add the user details to request.session dictionary
 			else:
 				msg="Login failed.."

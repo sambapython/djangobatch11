@@ -24,8 +24,8 @@
 				<td>{{ plr.active}}</td>
 				<td><img width="50" height="50" src="/media/{{plr.pic}}"></td>
 				<td>
-					<a href="/update_player/{{plr.id}}">UPDATE</a>||
-					<a href="/delete_player/{{plr.id}}">DELETE</a>
+					<a href="/update_player/{{plr.get_id}}">UPDATE</a>||
+					<a href="/delete_player/{{plr.get_id}}">DELETE</a>
 				</td>
 			</tr>
 			{% endfor %}

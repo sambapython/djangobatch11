@@ -37,7 +37,7 @@
   <p>{{message}}</p>
   {% block container%}
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <h2>REGISTRATION</h2>
       <form method="post">
         {% csrf_token%}
@@ -45,14 +45,16 @@
         <input type="submit" name="reg" value="Register">
       </form>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
       <h2>LOGIN</h2>
       <form method="post">
         {% csrf_token %}
         {{ login_form.as_p}}
         <input type="submit" name="log" value="LOGIN">
       </form>
-        
+    </div>
+    <div class="col-md-4">
+      <a href="/googleauth">AUTHENTICATE WITH GOOGLE</a>
     </div>
   </div>
   {% endblock %}

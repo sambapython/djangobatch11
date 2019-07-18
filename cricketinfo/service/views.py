@@ -2,12 +2,44 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from info.models import Country, Player
-from service.serializers import CountrySerializer, PlayerSerializer
+from service.serializers import CountrySerializer, PlayerSerializer,\
+PlayerPutSerializer
 from rest_framework import status
 from rest_framework import viewsets
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+class TokenView(APIView):
+	authentication_classes=[]
+	permission_classes=[]
+	def post(self, request):
+		params = request.data
+		user = authenticate(username=params["username"],
+			password=params["password"])
+		if user:
+			t=Token(user=user)
+			try:
+				t.save()
+			except:
+				t = Token.objects.get(user=user)
+			return Response(t.key)
+		else:
+			return Response("Not authenticated",
+				status=status.HTTP_401_UNAUTHORIZED)
 class PlayerView(viewsets.ModelViewSet):
+	# create, update, destroy, list, retrieve
 	serializer_class=PlayerSerializer
 	queryset=Player.objects.all()
+	def get_serializer_class(self):
+		if self.action == "update":
+			return PlayerPutSerializer
+		else:
+			return self.serializer_class
+
+	def destroy(self,request,pk,**kwargs):
+		resp = viewsets.ModelViewSet.destroy(self,request,pk,**kwargs)
+		return Response("Id: %s deleted successfully!!" % pk)
+
+
 
 # Create your views here.
 resp = {"message":"","details":""}
