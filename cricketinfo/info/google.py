@@ -36,5 +36,6 @@ def redirect_auth_view(request):
             password="123456778",country=c[0])
     else:
         user=user[0]
+    request.session.update({"picture":user_data.get("picture")})
     login(request,user)
     return redirect("/")

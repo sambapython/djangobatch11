@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% load static %}
   <title>Games information..</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +17,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">CRICKET INFORMATION</a>
-      <img src="/static/info/images/logo.jpeg" width="50px" height="50px">
+      <img src="{% static 'info/images/logo.jpeg' %}" width="50px" height="50px">
     </div>
     <ul class="nav navbar-nav">
       <li><a href="/">Home</a></li>
@@ -24,7 +25,9 @@
       <li><a href="/players">players</a></li>
       <li><a href="/countries">COUNTRIES</a></li>
       <li><a href="/matches">MATCHES</a></li>
-      <li><a href="#">WELCOME <b>{{ request.user.username}}</b></a></li>
+      <li><a href="#">WELCOME <b>{{ request.user.username}}</b></a>
+        
+      </li>
       <li><a href="/logout">LOGOUT</a></li>
 
       {% endif %}

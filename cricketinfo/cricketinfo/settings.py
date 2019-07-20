@@ -25,7 +25,7 @@ SECRET_KEY = '4sv=vxmww-zzfe-jg+rbnm*56*bn3nh7$7%049@oo8qp$b23=!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'info.middlewares.Tracker'
 ]
 
 ROOT_URLCONF = 'cricketinfo.urls'
@@ -137,8 +138,9 @@ REST_FRAMEWORK = {
         #"rest_framework.permissions.IsAuthenticated",
         )
 }
-CLIENT_ID = ""
-CLIENT_SEC = ""
+CLIENT_ID = "573880508640-ltm6cgvk9827rfa8ntb2d394j507j3ee.apps.googleusercontent.com"
+CLIENT_SEC = "k-2pc9qOzdU4z-6cF-j2gJxZ"
 LOGIN_URL = "/"
+
 
 
