@@ -8,6 +8,8 @@ from rest_framework import status
 from rest_framework import viewsets
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from django.core.cache import cache
+from django.conf import settings
 class TokenView(APIView):
 	authentication_classes=[]
 	permission_classes=[]
@@ -29,6 +31,13 @@ class PlayerView(viewsets.ModelViewSet):
 	# create, update, destroy, list, retrieve
 	serializer_class=PlayerSerializer
 	queryset=Player.objects.all()
+	def retrieve(self,request,pk, **kwargs):
+		resp = cache.get("player_%s"%pk)
+		if resp:
+			return resp
+		else:
+			resp = viewsets.ModelViewSet.retrieve(self,request,pk,**kwargs)
+			return resp
 	def get_serializer_class(self):
 		if self.action == "update":
 			return PlayerPutSerializer
@@ -37,6 +46,8 @@ class PlayerView(viewsets.ModelViewSet):
 
 	def destroy(self,request,pk,**kwargs):
 		resp = viewsets.ModelViewSet.destroy(self,request,pk,**kwargs)
+		if resp.status_code==204:
+			cache.delete("player_%s"%pk)
 		return Response("Id: %s deleted successfully!!" % pk)
 
 
@@ -46,7 +57,10 @@ resp = {"message":"","details":""}
 class CountryView(APIView):
 	def get(self,request,pk=None,format=None):
 		if pk:
-			data =Country.objects.filter(id=pk)
+			data = cache.get("country_%s"%pk)
+			if not data:
+				data =Country.objects.filter(id=pk)
+				cache.set("country_%s"%pk,data)
 		else:
 		    data = Country.objects.all()
 		ser = CountrySerializer(data, many=True)
@@ -56,7 +70,9 @@ class CountryView(APIView):
 		data = request.data
 		ser = CountrySerializer(data=data)
 		if ser.is_valid():
-			ser.save()
+			c=Country(**ser.data)
+			for db in settings.DATABASES:
+				c.save(using=db)
 			resp["message"] = "Country created successfully"
 			resp["details"] = ser.data
 			return Response(resp)
@@ -71,6 +87,7 @@ class CountryView(APIView):
 			ser.save()
 			resp["message"] = "Country updated successfully"
 			resp["details"] = ser.data
+			cache.delete("country_%s"%pk)
 			return Response(resp)
 		else:
 			resp["message"]="Country updation failed"
@@ -88,6 +105,7 @@ class CountryView(APIView):
 				return Response(resp,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 			resp["message"] = "deletion success"
 			resp["details"] = "%s"%pk
+			cache.delete("country_%s"%pk)
 			return Response(resp)
 		else:
 			resp["message"] = "deletion failed"

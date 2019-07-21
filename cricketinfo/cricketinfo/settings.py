@@ -26,7 +26,12 @@ SECRET_KEY = '4sv=vxmww-zzfe-jg+rbnm*56*bn3nh7$7%049@oo8qp$b23=!'
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
 
 # Application definition
 
@@ -82,6 +87,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'backup': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db1.sqlite3'),
     }
 }
 
