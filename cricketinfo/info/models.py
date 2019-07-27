@@ -16,7 +16,7 @@ class Country(abst):
 
 class UserProfile(AbstractUser):
 	country = models.ForeignKey(Country,on_delete=models.PROTECT,
-		related_name="userprofile")
+		related_name="userprofile",null=True,blank=True)
 	#role = models.CharField(choices=[(""),()])
 
 # Create your models here.

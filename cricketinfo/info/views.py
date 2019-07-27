@@ -138,6 +138,7 @@ def create_country_view(request):
 	if request.method=="POST":
 		data=request.POST
 		files = request.FILES
+		
 		flag_file = files["flag"]
 		name=f"{flag_file.name}{int(time())}"
 		pic_data = flag_file.read()
