@@ -56,7 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'info.middlewares.Tracker'
+    'info.middlewares.Tracker',
+    #'service.middlewares.TokenExpireCheck'
 ]
 
 ROOT_URLCONF = 'cricketinfo.urls'
@@ -150,6 +151,8 @@ REST_FRAMEWORK = {
 CLIENT_ID = "573880508640-ltm6cgvk9827rfa8ntb2d394j507j3ee.apps.googleusercontent.com"
 CLIENT_SEC = "k-2pc9qOzdU4z-6cF-j2gJxZ"
 LOGIN_URL = "/"
+SESSION_COOKIE_AGE = 900
+TOKEN_EXP_TIME = 900
 
 
 

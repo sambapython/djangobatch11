@@ -10,6 +10,17 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.core.cache import cache
 from django.conf import settings
+from service.models import MyToken
+import time
+def tockencheck(method):
+	def inner(*args,**kwargs):
+		user = args[1].user
+		token = MyToken.objects.get(user=user)
+		if token.expire_time<time.time():
+			return Response("Token expired create again",status=status.HTTP_401_UNAUTHORIZED)
+		return method(*args,**kwargs)
+	return inner
+
 class TokenView(APIView):
 	authentication_classes=[]
 	permission_classes=[]
@@ -18,12 +29,17 @@ class TokenView(APIView):
 		user = authenticate(username=params["username"],
 			password=params["password"])
 		if user:
-			t=Token(user=user)
+			exp = int(time.time())+settings.TOKEN_EXP_TIME
+			t=MyToken(user=user,expire_time=exp)
 			try:
 				t.save()
 			except:
-				t = Token.objects.get(user=user)
-			return Response(t.key)
+				t = MyToken.objects.get(user=user)
+				t.delete()
+				t=MyToken(user=user,expire_time=exp)
+				t.save()
+				data = {"token":t.key, "expireat":t.expire_time}
+			return Response(data)
 		else:
 			return Response("Not authenticated",
 				status=status.HTTP_401_UNAUTHORIZED)
@@ -55,6 +71,8 @@ class PlayerView(viewsets.ModelViewSet):
 # Create your views here.
 resp = {"message":"","details":""}
 class CountryView(APIView):
+	
+	@tockencheck
 	def get(self,request,pk=None,format=None):
 		if pk:
 			data = cache.get("country_%s"%pk)
